@@ -1,6 +1,6 @@
 # Don't Fight Hallucinations, Use Them: Estimating Image Realism using NLI over Atomic Facts
 
-This repository contains resources for "Don't Fight Hallucinations, Use Them: \\Estimating Image Realism using NLI over Atomic Facts" paper.
+This repository contains resources for "Don't Fight Hallucinations, Use Them: Estimating Image Realism using NLI over Atomic Facts" paper.
 
 ## Files Overview
 
