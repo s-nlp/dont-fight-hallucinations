@@ -28,3 +28,13 @@ Scripts should be run using Python’s module system: `python -m scripts.script_
    Implements the computation of the **Reality Score** by calculating NLI-scores between atomic facts and aggregating them into a single score.
 
 ---
+
+## Method Illustration
+
+Our method identifies contradictions between generated atomic facts to estimate image realism.
+
+### Example 1: Normal Image
+![A snow plow driving down a snowy street](images/0_norm.png)
+
+### Example 2: Weird Image
+![A large yellow truck driving through the sand](images/0_strange.png)
