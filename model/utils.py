@@ -6,7 +6,7 @@ from sklearn.cluster import KMeans
 
 def get_ce_score(pairs, nli_model):
     scores = nli_model.predict(pairs)
-    label_names = ['contradiction', 'entailment', 'neutral']
+    label_names = ["contradiction", "entailment", "neutral"]
     predictions = []
     for pred in scores:
         predictions.append({name: round(float(pred), 2) for pred, name in zip(pred, label_names)})
@@ -25,20 +25,28 @@ def get_custom_scores(input, nli_model):
 
 
 def weighted_agg(input, ent_w, cont_w, neutral_w):
-    ent = input['entailment']
-    cont = input['contradiction']
-    neutral = input['neutral']
+    ent = input["entailment"]
+    cont = input["contradiction"]
+    neutral = input["neutral"]
 
     weighted_sum = ent_w * ent + neutral_w * neutral + cont_w * cont
     return weighted_sum
 
 
-def aggregation(scores_1, scores_2, ent_w=1, cont_w=-1, neutral_w=0):
+def aggregation(scores_1, scores_2, ent_w=1, cont_w=-1, neutral_w=0, agg_type="clust"):
     agg_1 = [weighted_agg(s, ent_w, cont_w, neutral_w) for s in scores_1]
     agg_2 = [weighted_agg(s, ent_w, cont_w, neutral_w) for s in scores_2]
 
     agg = np.array(agg_1 + agg_2)
 
-    kmeans = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(agg.reshape(-1, 1))
-    centroids = kmeans.cluster_centers_
-    return np.min(centroids)
+    if agg_type == "clust":
+        kmeans = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(agg.reshape(-1, 1))
+        centroids = kmeans.cluster_centers_
+        return np.min(centroids)
+    elif agg_type == "abs_max":
+        abs_max = np.argmax(np.absolute(agg)) 
+        return agg[abs_max]
+    elif agg_type == "min":
+        return np.min(agg)
+    else:
+        raise ValueError(f"{agg_type} aggregation method is not implemented")

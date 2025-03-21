@@ -40,7 +40,7 @@ def main(args):
         image = Image.open(image_path)
         facts = generate(processor, model, prompt, image)
 
-        image_name = image_path.split('/')[-1]
+        image_name = image_path.split("/")[-1]
         results[image_name] = facts
 
     with jsonlines.open(args.facts_file, mode="w") as writer:
